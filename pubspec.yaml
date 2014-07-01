@@ -1,0 +1,16 @@
+name: redstone_mapper_mongo
+version: 0.1.0
+author: Luiz Mineo <luiz.mineo@gmail.com>
+description: MongoDB extension for redstone_mapper
+homepage: http://luizmineo.github.io/redstone.dart
+environment:
+  sdk: '>=1.4.0 <2.0.0'
+dependencies:
+  redstone: '>= 0.5.4 < 0.6.0'
+  redstone_mapper:
+    git: git://github.com/luizmineo/redstone_mapper.git
+  connection_pool: '>=0.1.0+2 < 1.0.0'
+  mongo_dart: '>= 0.1.40 <0.2.0'
+dev_dependencies:
+  unittest: '>=0.10.0 <0.12.0'
+  mock: '>=0.11.0+1 <0.12.0'
