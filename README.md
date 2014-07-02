@@ -1,6 +1,8 @@
 redstone_mapper_mongo
 =====================
 
+[![Build Status](https://drone.io/github.com/luizmineo/redstone_mapper_mongo/status.png)](https://drone.io/github.com/luizmineo/redstone_mapper_mongo/latest)
+
 MongoDB extension for [redstone_mapper](https://github.com/luizmineo/redstone_mapper).
 
 This package is a wrapper for the [mongo_dart](https://github.com/vadimtsushko/mongo_dart) driver.
