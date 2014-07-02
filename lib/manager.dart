@@ -217,10 +217,14 @@ FieldEncoder _fieldEncoder = (Map data, String fieldName, Field fieldInfo,
   if (name == null) {
     name = fieldName;
   }
-  if (value != null && value is String && fieldInfo is Id) {
-    value = ObjectId.parse(value);
+  if (fieldInfo is Id) {
+    if (value != null && value is String) {
+      value = ObjectId.parse(value);
+      data[name] = value;
+    }
+  } else {
+    data[name] = value;
   }
-  data[name] = value;
 };
 
 FieldEncoder _updtFieldEncoder = (Map data, String fieldName, Field fieldInfo, 

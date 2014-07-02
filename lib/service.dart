@@ -24,7 +24,7 @@ import 'package:mongo_dart/mongo_dart.dart';
  * Also, it's possible to inherit from this class:
  * 
  *      @app.Group("/services/user")
- *      Class UserServices extends MongoDbServices<User> {
+ *      Class UserServices extends MongoDbService<User> {
  * 
  *        UserServices() : super("users");
  * 
