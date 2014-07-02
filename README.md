@@ -122,4 +122,4 @@ Class UserService extends MongoDbService<User> {
 ```
 
 `MongoDbService` will by default use the database connection associated with the current request. If you are not using
-Redstone.dart, be sure to use the `MongoDbService.fromConnection` constructor to create a new service.
+Redstone.dart, be sure to use the `MongoDbService.fromConnection()` constructor to create a new service.
