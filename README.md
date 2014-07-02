@@ -75,13 +75,13 @@ MongoDb get mongoDb => app.request.attributes.dbConn;
 
 @app.Route("/services/users/list")
 @Encode()
-List<User> listUsers() => 
+Future<List<User>> listUsers() => 
   //query documents from the "users" collection, and decode
   //the result to List<User>.
   mongoDb.find("users", User); 
 
 @app.Route("/services/users/add", methods: const[app.POST])
-addUser(@Decode() User user) => 
+Future addUser(@Decode() User user) => 
   //encode user, and insert it in the "users" collection.
   mongoDb.insert("users", user);
 
@@ -98,10 +98,10 @@ MongoDbService<User> userService = new MongoDbService<User>("users");
 
 @app.Route("/services/users/list")
 @Encode()
-List<User> listUsers() => userService.find(); 
+Future<List<User>> listUsers() => userService.find(); 
 
 @app.Route("/services/users/add", methods: const[app.POST])
-addUser(@Decode() User user) => userService.insert(user);
+Future addUser(@Decode() User user) => userService.insert(user);
 
 ```
 
