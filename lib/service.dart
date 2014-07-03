@@ -144,6 +144,6 @@ class MongoDbService<T> {
    * or an encodable object.
    */ 
   Future remove(dynamic selector) {
-    return mongoDb.save(collection, selector);
+    return mongoDb.remove(collection, selector);
   }
 }
