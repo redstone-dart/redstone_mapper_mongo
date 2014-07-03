@@ -136,4 +136,14 @@ class MongoDbService<T> {
         override: override, upsert: upsert, 
         multiUpdate: multiUpdate);
   }
+  
+  /**
+   * Wrapper for DbCollection.remove().
+   * 
+   * [selector] can be a Map, a SelectorBuilder,
+   * or an encodable object.
+   */ 
+  Future remove(dynamic selector) {
+    return mongoDb.save(collection, selector);
+  }
 }

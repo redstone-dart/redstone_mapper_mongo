@@ -171,6 +171,21 @@ class MongoDb {
           upsert: upsert, multiUpdate: multiUpdate);
   }
   
+  /**
+   * Wrapper for DbCollection.remove().
+   * 
+   * [collection] is the MongoDb collection where the query will be executed,
+   * and it can be a String or a DbCollection. [selector] can be a Map, a SelectorBuilder,
+   * or an encodable object.
+   */ 
+  Future remove(dynamic collection, dynamic selector) {
+    var dbCol = _collection(collection);
+    if (selector is! Map) {
+      selector = _codec.encode(selector);
+    }
+    return dbCol.remove(selector);
+  }
+  
   DbCollection _collection(collection) {
     if (collection is String) {
       collection = innerConn.collection(collection);
