@@ -87,12 +87,17 @@ main() {
   var userObj = new User()
                   ..id = "53552802a1c800cf5172e724"
                   ..username = "user"
-                  ..password = "1234";
+                  ..password = "1234"
+                  ..resourceId = "54669d524ee3d652f7d0030d"
+                  ..resourceIds = ["54669d524ee3d652f7d0030d", "54669d524ee3d652f7d0030d"];
   
   var userMap = {
     "_id": ObjectId.parse("53552802a1c800cf5172e724"),
     "username": "user",
-    "password": "1234"
+    "password": "1234",
+    "resourceId": ObjectId.parse("54669d524ee3d652f7d0030d"),
+    "resourceIds": [ObjectId.parse("54669d524ee3d652f7d0030d"),
+                    ObjectId.parse("54669d524ee3d652f7d0030d")]
   };
   
   MongoDb mongoDb;
@@ -144,7 +149,9 @@ main() {
     var userJson = {
       "id": "53552802a1c800cf5172e724",
       "username": "user",
-      "password": "1234"
+      "password": "1234",
+      "resourceId": "54669d524ee3d652f7d0030d",
+      "resourceIds": ["54669d524ee3d652f7d0030d", "54669d524ee3d652f7d0030d"]
     };
     
     setUp(() {

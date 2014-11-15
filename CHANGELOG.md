@@ -1,3 +1,6 @@
+## v0.1.2
+* Added the `@ReferenceId` annotation
+
 ## v0.1.1+1
 * Fix: added wrapper for `DbCollection.remove()`.
 

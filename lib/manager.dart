@@ -220,8 +220,12 @@ FieldDecoder _fieldDecoder = (Object data, String fieldName,
     name = fieldName;
   }
   var value = (data as Map)[name];
-  if (value is ObjectId && fieldInfo is Id) {
-    value = value.toHexString();
+  if (fieldInfo is Id || fieldInfo is ReferenceId) {
+    if (value is ObjectId) {
+      value = value.toHexString();
+    } else if (value is List) {
+      value = (value as List).map((o) => o.toHexString()).toList();
+    }
   }
   return value;
 };
@@ -232,10 +236,15 @@ FieldEncoder _fieldEncoder = (Map data, String fieldName, Field fieldInfo,
   if (name == null) {
     name = fieldName;
   }
-  if (fieldInfo is Id) {
-    if (value != null && value is String) {
-      value = ObjectId.parse(value);
-      data[name] = value;
+  if (fieldInfo is Id || fieldInfo is ReferenceId) {
+    if (value != null) {
+      if (value is String) {
+        value = ObjectId.parse(value);
+        data[name] = value;
+      } else if (value is List) {
+        value = (value as List).map((o) => ObjectId.parse(o)).toList();
+        data[name] = value;
+      }
     }
   } else {
     data[name] = value;
@@ -253,8 +262,12 @@ FieldEncoder _updtFieldEncoder = (Map data, String fieldName, Field fieldInfo,
     set = {};
     data[r'$set'] = set;
   }
-  if (value is String && metadata.contains(const Id())) {
-    value = ObjectId.parse(value);
+  if (fieldInfo is Id || fieldInfo is ReferenceId) {
+    if (value is String) {
+      value = ObjectId.parse(value);
+    } else if (value is List) {
+      value = (value as List).map((o) => ObjectId.parse(o)).toList();
+    }
   }
   set[name] = value;
 };
