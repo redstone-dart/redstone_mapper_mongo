@@ -253,6 +253,9 @@ FieldEncoder _fieldEncoder = (Map data, String fieldName, Field fieldInfo,
 
 FieldEncoder _updtFieldEncoder = (Map data, String fieldName, Field fieldInfo, 
                                   List metadata, Object value) {
+  if (value == null) {
+   return;
+  }
   String name = fieldInfo.model;
   if (name == null) {
     name = fieldName;
@@ -265,11 +268,14 @@ FieldEncoder _updtFieldEncoder = (Map data, String fieldName, Field fieldInfo,
   if (fieldInfo is Id || fieldInfo is ReferenceId) {
     if (value is String) {
       value = ObjectId.parse(value);
+      set[name] = value;
     } else if (value is List) {
       value = (value as List).map((o) => ObjectId.parse(o)).toList();
+      set[name] = value;
     }
+  } else {
+    set[name] = value;
   }
-  set[name] = value;
 };
 
 GenericTypeCodec _codec = new GenericTypeCodec(fieldDecoder: _fieldDecoder, 

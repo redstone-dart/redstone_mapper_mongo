@@ -134,6 +134,10 @@ main() {
       return new Future.value();
     });
     
+    var updtUser = new User()
+                       ..username = 'new_username';
+    var encodedUpdtUser = {'username': 'new_username'};
+    
     return mongoDb.update(mongoDb.collection("user"), userMap, userObj).then((_) {
       expect(encodedUser, equals(userMap));
     }).then((_) {
@@ -141,6 +145,11 @@ main() {
           override: false);
     }).then((_) {
       expect(encodedUser, equals({r"$set": userMap}));
+    }).then((_) {
+      return mongoDb.update(mongoDb.collection("user"), userMap, updtUser, 
+          override: false);
+    }).then((_) {
+      expect(encodedUser, equals({r"$set": encodedUpdtUser}));
     });
   });
   

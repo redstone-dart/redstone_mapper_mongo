@@ -1,3 +1,6 @@
+## v0.1.3
+* Fix object enconding in the update method when override = false.
+
 ## v0.1.2
 * Added the `@ReferenceId` annotation
 
