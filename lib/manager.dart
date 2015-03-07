@@ -273,6 +273,10 @@ FieldEncoder _updtFieldEncoder = (Map data, String fieldName, Field fieldInfo,
       value = (value as List).map((o) => ObjectId.parse(o)).toList();
       set[name] = value;
     }
+  } else if (value is Map) {
+    (value[r"$set"] as Map).forEach((k, v) {
+      set["${name}.${k}"] = v;
+    });
   } else {
     set[name] = value;
   }

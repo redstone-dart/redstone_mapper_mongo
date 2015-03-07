@@ -37,6 +37,19 @@ class User {
                 "resourceId: $resourceId resourceIds: $resourceIds";
 }
 
+class TestObject {
+  
+  @Field()
+  String id;
+  
+  @Field()
+  String field;
+  
+  @Field()
+  TestObject innerObj;
+  
+}
+
 var _service = new MongoDbService<User>("user");
 
 @app.Route("/find")

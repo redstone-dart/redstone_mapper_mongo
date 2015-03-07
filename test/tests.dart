@@ -128,9 +128,9 @@ main() {
   });
   
   test("Encode: Update", () {
-    var encodedUser;
+    var encodedData;
     mockCol.when(callsTo("update")).alwaysCall((selector, document, {upsert, multiUpdate, w}) {
-      encodedUser = document;
+      encodedData = document;
       return new Future.value();
     });
     
@@ -138,18 +138,38 @@ main() {
                        ..username = 'new_username';
     var encodedUpdtUser = {'username': 'new_username'};
     
+    var testObj = new TestObject()
+                        ..id = "1"
+                        ..field = "value1";
+    testObj.innerObj = new TestObject()
+                        ..field = "value2";
+    testObj.innerObj.innerObj = new TestObject()
+                            ..field = "value3";
+    
+    var encodedUpdtTestObj = {
+      "id": "1",
+      "field": "value1",
+      "innerObj.field": "value2",
+      "innerObj.innerObj.field": "value3"
+    };
+    
     return mongoDb.update(mongoDb.collection("user"), userMap, userObj).then((_) {
-      expect(encodedUser, equals(userMap));
+      expect(encodedData, equals(userMap));
     }).then((_) {
       return mongoDb.update(mongoDb.collection("user"), userMap, userObj, 
           override: false);
     }).then((_) {
-      expect(encodedUser, equals({r"$set": userMap}));
+      expect(encodedData, equals({r"$set": userMap}));
     }).then((_) {
       return mongoDb.update(mongoDb.collection("user"), userMap, updtUser, 
           override: false);
     }).then((_) {
-      expect(encodedUser, equals({r"$set": encodedUpdtUser}));
+      expect(encodedData, equals({r"$set": encodedUpdtUser}));
+    }).then((_) {
+      return mongoDb.update(mongoDb.collection("test"), {"id": 1}, testObj, 
+          override: false);
+    }).then((_) {
+      expect(encodedData, equals({r"$set": encodedUpdtTestObj}));
     });
   });
   

@@ -1,3 +1,6 @@
+## v0.1.3+1
+* Fix encoding of multi level objects in the `update()` method. ([#82](https://github.com/luizmineo/redstone.dart/issues/82))
+
 ## v0.1.3
 * Fix object enconding in the update method when override = false.
 
