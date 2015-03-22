@@ -1,13 +1,12 @@
 library mapper_mongodb_tests;
 
 import 'dart:async';
-import 'dart:convert';
+import 'dart:convert' as conv;
 
 import 'package:unittest/unittest.dart';
 import 'package:mock/mock.dart';
 
-import 'package:redstone/server.dart' as app;
-import 'package:redstone/mocks.dart';
+import 'package:redstone/redstone.dart';
 
 import 'package:connection_pool/connection_pool.dart';
 import 'package:redstone_mapper/mapper_factory.dart';
@@ -183,20 +182,20 @@ main() {
       "resourceIds": ["54669d524ee3d652f7d0030d", "54669d524ee3d652f7d0030d"]
     };
     
-    setUp(() {
+    setUp(() async {
       var dbManager = new MockMongoDbManager(mongoDb);
-      app.addPlugin(getMapperPlugin(dbManager));
-      app.setUp([#redstone_mongodb_service]);
+      addPlugin(getMapperPlugin(dbManager));
+      await redstoneSetUp([#redstone_mongodb_service]);
     });
     
-    tearDown(app.tearDown);
+    tearDown(redstoneTearDown);
     
     test("find", () {
       mockCol.when(callsTo("find")).alwaysReturn(new MockCursor([userMap, userMap, userMap]));
 
       var req = new MockRequest("/find");
-      return app.dispatch(req).then((resp) {
-        expect(resp.mockContent, equals(JSON.encode([userJson, userJson, userJson])));
+      return dispatch(req).then((resp) {
+        expect(resp.mockContent, equals(conv.JSON.encode([userJson, userJson, userJson])));
       });
     });
     
@@ -207,12 +206,12 @@ main() {
         return new Future.value();
       });
       
-      var req = new MockRequest("/save", method: app.POST, 
-          bodyType: app.JSON, body: userJson);
-      return app.dispatch(req).then((resp) {
+      var req = new MockRequest("/save", method: POST, 
+          bodyType: JSON, body: userJson);
+      return dispatch(req).then((resp) {
         mockCol.getLogs(callsTo("save")).verify(happenedOnce);
         expect(encodedUser, equals(userMap));
-        expect(resp.mockContent, JSON.encode({"success": true}));
+        expect(resp.mockContent, conv.JSON.encode({"success": true}));
       });
     });
   });

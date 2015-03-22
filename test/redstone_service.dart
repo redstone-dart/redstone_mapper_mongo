@@ -1,6 +1,6 @@
 library redstone_mongodb_service;
 
-import 'package:redstone/server.dart' as app;
+import 'package:redstone/redstone.dart';
 import 'package:redstone_mapper/mapper.dart';
 import 'package:redstone_mapper/plugin.dart';
 import 'package:redstone_mapper_mongo/metadata.dart';
@@ -52,10 +52,10 @@ class TestObject {
 
 var _service = new MongoDbService<User>("user");
 
-@app.Route("/find")
+@Route("/find")
 @Encode()
 find() => _service.find();
 
-@app.Route("/save", methods: const [app.POST])
+@Route("/save", methods: const [POST])
 save(@Decode() User user) =>
     _service.save(user).then((_) => {"success": true});

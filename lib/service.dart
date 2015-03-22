@@ -2,7 +2,7 @@ library mongodb_service;
 
 import 'dart:async';
 
-import 'package:redstone/server.dart' as app;
+import 'package:redstone/redstone.dart';
 import 'package:redstone_mapper_mongo/manager.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -52,7 +52,7 @@ class MongoDbService<T> {
   
   ///The MongoDB connection wrapper
   MongoDb get mongoDb => 
-      _mongoDb != null ? _mongoDb : app.request.attributes["dbConn"];
+      _mongoDb != null ? _mongoDb : request.attributes["dbConn"];
   
   ///The MongoDb connection
   Db get innerConn => mongoDb.innerConn;
