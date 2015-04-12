@@ -1,11 +1,4 @@
-**Unfortunatelly, I won't be able to maintain this project (and any other open-source project) in the foreseeable future. I'm terrible sorry for this, and if you are relying on this code base for your project(s), please, accept my apologies.** 
-
-**Also, if you have the interest, feel free to fork this repository and improve it. (for Redstone, you'll probably want to take a look at the v0.6 branch, which has a nicer code base).**
-
-**For all you guys who have helped me improving this project, my sincere thanks.**
-
-redstone_mapper_mongo
-=====================
+# redstone_mapper_mongo
 
 [![Build Status](https://drone.io/github.com/luizmineo/redstone_mapper_mongo/status.png)](https://drone.io/github.com/luizmineo/redstone_mapper_mongo/latest)
 
@@ -21,7 +14,7 @@ Create a `MongoDbManager` to manage connections with the database:
 var dbManager = new MongoDbManager("mongodb://localhost/dbname", poolSize: 3);
 ```
 
-If you are using redstone_mapper as a Redstone.dart plugin, you can pass a `MongoDbManager` to `getMapperPlugin()`, 
+If you are using redstone_mapper as a Redstone.dart plugin, you can pass a `MongoDbManager` to `getMapperPlugin()`,
 so a database connection will be available for every request:
 
 ```dart
@@ -30,13 +23,13 @@ import 'package:redstone_mapper/plugin.dart';
 import 'package:redstone_mapper_mongo/manager.dart';
 
 main() {
-  
+
   var dbManager = new MongoDbManager("mongodb://localhost/dbname", poolSize: 3);
-  
+
   app.addPlugin(getMapperPlugin(dbManager));
   app.setupConsoleLog();
   app.start();
-  
+
 }
 
 //redstone_mapper will create a "dbConn" attribute
@@ -44,7 +37,7 @@ main() {
 @app.Route("/services/users/list")
 listUsers(@app.Attr() MongoDb dbConn) =>
    dbConn.collection("users").find().toList();
-   
+
 //If you prefer, you can also create a getter to access the
 //database connection of the current request, so
 //you don't need to add an extra parameter for every route.
@@ -63,9 +56,9 @@ import 'package:redstone_mapper_mongo/manager.dart';
 import 'package:redstone_mapper_mongo/metadata.dart';
 
 class User {
-  
-  //@Id is a special annotation to handle the "_id" document field, 
-  //it instructs redstone_mapper to convert ObjectId values to String, 
+
+  //@Id is a special annotation to handle the "_id" document field,
+  //it instructs redstone_mapper to convert ObjectId values to String,
   //and vice versa.
   @Id()
   String id;
@@ -75,26 +68,26 @@ class User {
 
   @Field()
   String password;
-  
+
 }
 
 MongoDb get mongoDb => app.request.attributes.dbConn;
 
 @app.Route("/services/users/list")
 @Encode()
-Future<List<User>> listUsers() => 
+Future<List<User>> listUsers() =>
   //query documents from the "users" collection, and decode
   //the result to List<User>.
-  mongoDb.find("users", User); 
+  mongoDb.find("users", User);
 
 @app.Route("/services/users/add", methods: const[app.POST])
-Future addUser(@Decode() User user) => 
+Future addUser(@Decode() User user) =>
   //encode user, and insert it in the "users" collection.
   mongoDb.insert("users", user);
 
 ```
 
-However, the `MongoDb` class doesn't hide the `mongo_dart` API. You can access a `DbCollection` with the `MongoDb.collection()` method. 
+However, the `MongoDb` class doesn't hide the `mongo_dart` API. You can access a `DbCollection` with the `MongoDb.collection()` method.
 Also, you can access the original connection object with the `MongoDb.innerConn` property.
 
 Moreover, you can use a `MongoDbService` to handle operations that concerns the same document type:
@@ -105,7 +98,7 @@ MongoDbService<User> userService = new MongoDbService<User>("users");
 
 @app.Route("/services/users/list")
 @Encode()
-Future<List<User>> listUsers() => userService.find(); 
+Future<List<User>> listUsers() => userService.find();
 
 @app.Route("/services/users/add", methods: const[app.POST])
 Future addUser(@Decode() User user) => userService.insert(user);
