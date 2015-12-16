@@ -1,3 +1,6 @@
+## v0.2.0-beta.2
+* Bump dependencies
+
 ## v0.1.3+1
 * Fix encoding of multi level objects in the `update()` method. ([#82](https://github.com/luizmineo/redstone.dart/issues/82))
 

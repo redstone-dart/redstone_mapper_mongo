@@ -8,13 +8,12 @@ import 'package:redstone_mapper_mongo/service.dart';
 import 'package:collection/equality.dart';
 
 class User {
-  
   @Id()
   String id;
-  
+
   @Field()
   String username;
-  
+
   @Field()
   String password;
 
@@ -23,31 +22,29 @@ class User {
 
   @ReferenceId()
   List<String> resourceIds;
-  
-  operator == (other) {
+
+  operator ==(other) {
     return other is User &&
-           other.id == id &&
-           other.username == username &&
-           other.password == password &&
-           other.resourceId == resourceId &&
-           new ListEquality().equals(other.resourceIds, resourceIds);
+        other.id == id &&
+        other.username == username &&
+        other.password == password &&
+        other.resourceId == resourceId &&
+        new ListEquality().equals(other.resourceIds, resourceIds);
   }
-  
+
   toString() => "id: $id username: $username password: $password "
-                "resourceId: $resourceId resourceIds: $resourceIds";
+      "resourceId: $resourceId resourceIds: $resourceIds";
 }
 
 class TestObject {
-  
   @Field()
   String id;
-  
+
   @Field()
   String field;
-  
+
   @Field()
   TestObject innerObj;
-  
 }
 
 var _service = new MongoDbService<User>("user");
@@ -57,5 +54,4 @@ var _service = new MongoDbService<User>("user");
 find() => _service.find();
 
 @Route("/save", methods: const [POST])
-save(@Decode() User user) =>
-    _service.save(user).then((_) => {"success": true});
+save(@Decode() User user) => _service.save(user).then((_) => {"success": true});
